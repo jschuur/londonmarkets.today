@@ -1,6 +1,6 @@
 # London Markets
 
-London street markets near you that are currently open
+Nearby open London street markets
 
 Temporary URL: https://lm.joostschuur.com
 
