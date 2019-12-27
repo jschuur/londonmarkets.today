@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -10,7 +10,7 @@ const IndexPage = ({ data }) => (
     <p>Nearby open London street markets</p>
     <u>
       {data.allCosmicjsMarkets.nodes.map(node => (
-        <li>{node.title}</li>
+        <li><Link to={node.slug}>{node.title}</Link></li>
       ))}
     </u>
   </Layout>
@@ -22,17 +22,8 @@ export const query = graphql`
   {
     allCosmicjsMarkets {
       nodes {
-        metadata {
-          active
-          address
-          description
-          lat
-          long
-          url
-        }
         title
-        id
-        order
+        slug
       }
     }
   }
