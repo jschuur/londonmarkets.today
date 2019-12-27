@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 module.exports = {
   siteMetadata: {
     title: `London Markets`,
@@ -25,6 +27,16 @@ module.exports = {
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: `gatsby-source-cosmicjs`,
+      options: {
+        bucketSlug: process.env.COSMIC_JS_BUCKET_SLUG,
+        objectTypes: ["markets"],
+        apiAccess: {
+          read_key: process.env.COSMIC_JS_READ_KEY,
+        },
       },
     },
     `gatsby-plugin-netlify`
