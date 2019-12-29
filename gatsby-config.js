@@ -5,6 +5,7 @@ module.exports = {
     title: `London Markets`,
     description: `Nearby open London street markets`,
     author: `@joostschuur`,
+    buildDate: (new Date).toLocaleString('en-GB', {timeZone: "UTC"})
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

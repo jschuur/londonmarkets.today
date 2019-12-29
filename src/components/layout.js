@@ -18,14 +18,16 @@ const Layout = ({ children }) => {
       site {
         siteMetadata {
           title
+          buildDate
         }
       }
     }
   `)
+  const { title, buildDate } = data.site.siteMetadata
 
   return (
     <>
-      <Header siteTitle={data.site.siteMetadata.title} />
+      <Header siteTitle={title} />
       <div
         style={{
           margin: `0 auto`,
@@ -38,7 +40,7 @@ const Layout = ({ children }) => {
         <footer>
           © {new Date().getFullYear()}, Built with
           {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>, by <a href="https://twitter.com/joostschuur">Joost Schuur</a>
+          <a href="https://www.gatsbyjs.org">Gatsby</a>, by <a href="https://twitter.com/joostschuur">Joost Schuur</a>. Build date: {buildDate}
         </footer>
       </div>
       </>
