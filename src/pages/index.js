@@ -8,11 +8,11 @@ const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" />
     <p>Nearby open London street markets</p>
-    <u>
+    <ul>
       {data.allCosmicjsMarkets.nodes.map(node => (
         <li><Link to={node.slug}>{node.title}</Link></li>
       ))}
-    </u>
+    </ul>
   </Layout>
 )
 
