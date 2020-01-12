@@ -5,6 +5,7 @@ module.exports = {
     title: `London Markets`,
     description: `Nearby open London street markets`,
     author: `@joostschuur`,
+    siteUrl: 'https://lm.joostschuur.com',
     buildDate: (new Date).toLocaleString('en-GB', {timeZone: "UTC"})
   },
   plugins: [
