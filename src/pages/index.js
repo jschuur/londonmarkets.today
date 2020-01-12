@@ -3,6 +3,7 @@ import { graphql, Link } from "gatsby";
 import useGeolocation from "react-hook-geolocation"
 import { getDistance } from "geolib"
 import roundTo from "round-to"
+import opening_hours from "opening_hours";
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -35,28 +36,49 @@ const IndexPage = ({ data }) => {
       } else {
         market.distance = null
       }
+
+      if(market.metadata.opening_hours) {
+        // TODO: handle syntax errors in opening hour data
+        let oh = new opening_hours(market.metadata.opening_hours)
+        market.open = oh.getState()
+        console.log(`Open: ${market.title} = ${market.open}`);
+      }
     }
-    // TODO: handle markets with no distance
+    // TODO: handle markets with no distance and sort by open
     markets.sort((a, b) => a.distance - b.distance)
   }
 
   return (
     <Layout>
       <SEO title="Home" />
-      <h2>Nearby markets</h2>
-      <ul>
+
+      <h2>Open markets</h2>
       {geolocation.latitude ? (
-        <>
-          {markets.map(market => (
-            <li key={market.title}>
-              <Link to={`/${market.slug}`}>{market.title}</Link> ({roundDistance(market.distance)})
-            </li>
-          ))}
-        </>
+        <div className="markets">
+        <ul>
+          {markets
+            .filter(market => market.open)
+            .map(market => (
+              <li key={market.title}>
+                <Link to={`/${market.slug}`}>{market.title}</Link> ({roundDistance(market.distance)})
+              </li>
+            ))}
+        </ul>
+
+        <h2>More Markets</h2>
+          <ul>
+            {markets
+              .filter(market => !market.open)
+              .map(market => (
+                <li key={market.title}>
+                  <Link to={`/${market.slug}`}>{market.title}</Link> ({roundDistance(market.distance)})
+                </li>
+              ))}
+          </ul>
+        </div>
       ) : (
         <>Grant access to your location to see local markets</>
       )}
-      </ul>
     </Layout>
   )
 }
@@ -70,6 +92,7 @@ export const query = graphql`
         title
         slug
         metadata {
+          opening_hours
           lat
           long
         }
