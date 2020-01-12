@@ -25,6 +25,7 @@
     "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1",
     "react-hook-geolocation": "^1.0.6",
+    "readable-timespan": "^2.1.0",
     "round-to": "^4.0.0"
   },
   "devDependencies": {

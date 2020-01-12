@@ -3,7 +3,8 @@ import { graphql, Link } from "gatsby";
 import useGeolocation from "react-hook-geolocation"
 import { getDistance } from "geolib"
 import roundTo from "round-to"
-import opening_hours from "opening_hours";
+import opening_hours from "opening_hours"
+import Timespan from "readable-timespan"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -18,6 +19,7 @@ function roundDistance(distance) {
 
 const IndexPage = ({ data }) => {
   var markets
+  var timespan = new Timespan({ millisecond: false, seconds: false })
 
   if (!markets) {
     markets = data.allCosmicjsMarkets.nodes
@@ -41,7 +43,9 @@ const IndexPage = ({ data }) => {
         // TODO: handle syntax errors in opening hour data
         let oh = new opening_hours(market.metadata.opening_hours)
         market.open = oh.getState()
-        console.log(`Open: ${market.title} = ${market.open}`);
+
+        let timeToClosing = new Date(oh.getNextChange()) - Date.now()
+        market.nextChange = `closes in ${timespan.parse(timeToClosing)}`;
       }
     }
     // TODO: handle markets with no distance and sort by open
@@ -56,16 +60,22 @@ const IndexPage = ({ data }) => {
       {geolocation.latitude ? (
         <div className="markets">
         <ul>
-          {markets
+          { markets
             .filter(market => market.open)
-            .map(market => (
-              <li key={market.title}>
-                <Link to={`/${market.slug}`}>{market.title}</Link> ({roundDistance(market.distance)})
-              </li>
-            ))}
+            .map(market => {
+              let mapsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(market.metadata.address)}`
+              
+              return (
+                <li key={market.title}>
+                  <Link to={`/${market.slug}`}>{market.title}</Link>
+                  (<a target="lmdirections" href={mapsLink}>{roundDistance(market.distance)}</a>, {market.nextChange})
+                </li>
+              )}
+            )
+          }
         </ul>
 
-        <h2>More Markets</h2>
+        <h2>More markets</h2>
           <ul>
             {markets
               .filter(market => !market.open)
@@ -87,12 +97,13 @@ export default IndexPage
 
 export const query = graphql`
   {
-    allCosmicjsMarkets {
+    allCosmicjsMarkets(filter: {metadata: {active: {eq: true}}}) {
       nodes {
         title
         slug
         metadata {
           opening_hours
+          address
           lat
           long
         }
