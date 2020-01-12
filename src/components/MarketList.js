@@ -24,11 +24,17 @@ export default function MarketList({ markets, title, noMarkets }) {
               
               return (
                 <li key={market.title}>
-                  <Link to={`/${market.slug}`}>{market.title}</Link>
+                  <Link to={`/${market.slug}`}>{market.title}</Link>&nbsp;
                   { market.open ? (
-                    <> (<a target="lmdirections" href={mapsLink}>{roundDistance(market.distance)}</a>, {market.nextChange}) </>
+                      <>
+                        (<a target="lmdirections" href={mapsLink}>{roundDistance(market.distance)}</a>)<br /> 
+                        {market.nextChange}
+                      </>
                     ) : (
-                      <> ({roundDistance(market.distance)}) </>
+                      <>
+                        ({roundDistance(market.distance)})<br />
+                        {market.nextChange}
+                      </>
                     )}
                 </li>
               )

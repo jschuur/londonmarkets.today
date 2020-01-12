@@ -6,6 +6,7 @@ import { getDistance } from "geolib"
 import opening_hours from "opening_hours"
 import Timespan from "readable-timespan"
 import pluralize from "pluralize"
+import { formatRelative } from 'date-fns'
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -38,9 +39,14 @@ const IndexPage = ({ data }) => {
         // TODO: handle syntax errors in opening hour data
         let oh = new opening_hours(market.metadata.opening_hours)
         market.open = oh.getState()
+        let nextChange = oh.getNextChange()
 
-        let timeToClosing = new Date(oh.getNextChange()) - Date.now()
-        market.nextChange = `closes in ${timespan.parse(timeToClosing)}`;
+        if(market.open) {
+          let timeToClosing = new Date(nextChange) - Date.now()
+          market.nextChange = `closes in ${timespan.parse(timeToClosing)}`
+        } else {
+          market.nextChange = `reopens ${formatRelative(new Date(nextChange), new Date())}`
+        }
       }
     }
     // TODO: handle markets with no distance and sort by open
