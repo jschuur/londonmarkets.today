@@ -1,26 +1,21 @@
 import React from "react"
 import { graphql, Link } from "gatsby";
+
 import useGeolocation from "react-hook-geolocation"
 import { getDistance } from "geolib"
-import roundTo from "round-to"
 import opening_hours from "opening_hours"
 import Timespan from "readable-timespan"
+import pluralize from "pluralize"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-
-function roundDistance(distance) {
-  if(distance < 1000) {
-    return `${distance} m`
-  } else {
-    return `${roundTo(distance / 1000, 2)} km`
-  }
-}
+import MarketList from "../components/MarketList"
 
 const IndexPage = ({ data }) => {
   var markets
   var timespan = new Timespan({ millisecond: false, seconds: false })
 
+  // TODO: How often is this being initialized?
   if (!markets) {
     markets = data.allCosmicjsMarkets.nodes
   }
@@ -52,40 +47,25 @@ const IndexPage = ({ data }) => {
     markets.sort((a, b) => a.distance - b.distance)
   }
 
+  var inactiveMarkets = markets.filter(market => !market.metadata.active)
+
   return (
     <Layout>
       <SEO title="Home" />
 
-      <h2>Open markets</h2>
-      {geolocation.latitude ? (
-        <div className="markets">
-        <ul>
-          { markets
-            .filter(market => market.open)
-            .map(market => {
-              let mapsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(market.metadata.address)}`
-              
-              return (
-                <li key={market.title}>
-                  <Link to={`/${market.slug}`}>{market.title}</Link>
-                  (<a target="lmdirections" href={mapsLink}>{roundDistance(market.distance)}</a>, {market.nextChange})
-                </li>
-              )}
-            )
-          }
-        </ul>
+      { geolocation.latitude ? (
+        <>
+          <MarketList 
+            title="Open markets" 
+            markets={ markets.filter(market => market.open && market.metadata.active)} 
+            noMarkets="No markets currently open"/>
+          <MarketList
+            title="More markets"
+            markets={ markets.filter(market => !market.open && market.metadata.active)}
+            noMarkets="No markets loaded"/>
 
-        <h2>More markets</h2>
-          <ul>
-            {markets
-              .filter(market => !market.open)
-              .map(market => (
-                <li key={market.title}>
-                  <Link to={`/${market.slug}`}>{market.title}</Link> ({roundDistance(market.distance)})
-                </li>
-              ))}
-          </ul>
-        </div>
+      { inactiveMarkets && <p><i>{ inactiveMarkets.length } known { pluralize("markets", inactiveMarkets.length) } are on a break right now</i></p> }
+        </>
       ) : (
         <>Grant access to your location to see local markets</>
       )}
@@ -97,13 +77,14 @@ export default IndexPage
 
 export const query = graphql`
   {
-    allCosmicjsMarkets(filter: {metadata: {active: {eq: true}}}) {
+    allCosmicjsMarkets {
       nodes {
         title
         slug
         metadata {
           opening_hours
           address
+          active
           lat
           long
         }
