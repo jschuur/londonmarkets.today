@@ -14,7 +14,7 @@ export default function MarketList({ markets, title, noMarkets }) {
   console.log(markets);
   return (
     <div className="markets">
-      <h2>{ title }</h2>
+      <h2>{ title } { markets && (<>({ markets.length })</>)}</h2>
       { markets.length ? (
         <ul>
           { markets

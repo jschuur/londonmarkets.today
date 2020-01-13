@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql, Link } from "gatsby";
+import { graphql } from "gatsby";
 
 import useGeolocation from "react-hook-geolocation"
 import { getDistance } from "geolib"
@@ -70,7 +70,10 @@ const IndexPage = ({ data }) => {
             markets={ markets.filter(market => !market.open && market.metadata.active)}
             noMarkets="No markets loaded"/>
 
-      { inactiveMarkets && <p><i>{ inactiveMarkets.length } known { pluralize("markets", inactiveMarkets.length) } are on a break right now</i></p> }
+          { inactiveMarkets && 
+            <p><i>
+              { inactiveMarkets.length } known { pluralize("markets", inactiveMarkets.length) } are <a href="https://www.youtube.com/watch?v=oEn9YvJ3Gfg">on a break</a> right now
+            </i></p> }
         </>
       ) : (
         <>Grant access to your location to see local markets</>
