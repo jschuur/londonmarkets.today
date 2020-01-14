@@ -40,12 +40,13 @@ const IndexPage = ({ data }) => {
         let oh = new opening_hours(market.metadata.opening_hours)
         market.open = oh.getState()
         let nextChange = oh.getNextChange()
+        market.nextChange = nextChange
 
         if(market.open) {
           let timeToClosing = new Date(nextChange) - Date.now()
-          market.nextChange = `closes in ${timespan.parse(timeToClosing)}`
+          market.nextChangeStr = `closes in ${timespan.parse(timeToClosing)}`
         } else {
-          market.nextChange = `reopens ${formatRelative(new Date(nextChange), new Date())}`
+          market.nextChangeStr = `reopens ${formatRelative(new Date(nextChange), new Date())}`
         }
       }
     }
