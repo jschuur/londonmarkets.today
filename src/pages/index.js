@@ -13,14 +13,9 @@ import SEO from "../components/seo"
 import MarketList from "../components/MarketList"
 
 const IndexPage = ({ data }) => {
-  var markets
+  var markets = data.allCosmicjsMarkets.nodes
+
   var timespan = new Timespan({ millisecond: false, seconds: false })
-
-  // TODO: How often is this being initialized?
-  if (!markets) {
-    markets = data.allCosmicjsMarkets.nodes
-  }
-
   var geolocation = useGeolocation()
 
   if (geolocation.latitude && markets) {
