@@ -38,9 +38,8 @@ const Layout = ({ children }) => {
       >
         <main>{children}</main>
         <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>, <a href="https://cosmicjs.com">Cosmic JS</a> and <a href="https://netlify.com">Netlify</a><br />By <a href="https://twitter.com/joostschuur">Joost Schuur</a>. Build date: {buildDate}
+          <a href="https://twitter.com/LDNMarketsToday">@LDNMarketsToday</a> © {new Date().getFullYear()} by <a href="https://twitter.com/joostschuur">Joost Schuur</a>. <br />
+          Built with {` `} <a href="https://www.gatsbyjs.org">Gatsby</a>, <a href="https://cosmicjs.com">Cosmic JS</a> and <a href="https://netlify.com">Netlify</a>.<br />
         </footer>
       </div>
       </>
