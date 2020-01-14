@@ -8,6 +8,16 @@ module.exports = {
     siteUrl: 'https://londonmarkets.today',
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
+        head: false,
+        anonymize: true,
+        respectDNT: true,
+        cookieDomain: "londonmarkets.today",
+      },
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
@@ -38,18 +48,6 @@ module.exports = {
         apiAccess: {
           read_key: process.env.COSMIC_JS_READ_KEY,
         },
-      },
-    },
-    {
-      resolve: `gatsby-plugin-google-analytics`,
-      options: {
-        trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
-        head: false,
-        anonymize: true,
-        respectDNT: true,
-        sampleRate: 5,
-        siteSpeedSampleRate: 10,
-        cookieDomain: "lm.joostschuur.com",
       },
     },
     `gatsby-plugin-netlify`
