@@ -2,6 +2,6 @@
 
 Nearby open London street markets
 
-Temporary URL: https://lm.joostschuur.com
+https://londonmarkets.today
 
-by [Joost Schuur](https://twitter.com/joostschuur) ([TODOs](https://github.com/jschuur/london-markets/projects/1))
+by [Joost Schuur](https://twitter.com/joostschuur) ([TODOs](https://github.com/jschuur/londonmarkets.today/projects/1))

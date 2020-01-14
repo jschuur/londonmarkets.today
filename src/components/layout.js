@@ -7,7 +7,7 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, Link } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
@@ -18,7 +18,6 @@ const Layout = ({ children }) => {
       site {
         siteMetadata {
           title
-          buildDate
         }
       }
     }
@@ -38,7 +37,7 @@ const Layout = ({ children }) => {
       >
         <main>{children}</main>
         <footer>
-          <a href="https://twitter.com/LDNMarketsToday">@LDNMarketsToday</a> © {new Date().getFullYear()} by <a href="https://twitter.com/joostschuur">Joost Schuur</a>. <br />
+          <a href="https://twitter.com/LDNMarketsToday">@LDNMarketsToday</a> © {new Date().getFullYear()} by <a href="https://twitter.com/joostschuur">Joost Schuur</a> (<Link to={`/about`}>more info</Link>). <br />
           Built with {` `} <a href="https://www.gatsbyjs.org">Gatsby</a>, <a href="https://cosmicjs.com">Cosmic JS</a> and <a href="https://netlify.com">Netlify</a>.<br />
         </footer>
       </div>

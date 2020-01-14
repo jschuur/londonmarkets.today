@@ -2,11 +2,10 @@ require("dotenv").config();
 
 module.exports = {
   siteMetadata: {
-    title: `London Markets`,
+    title: `London Markets Today`,
     description: `Nearby open London street markets`,
     author: `@joostschuur`,
     siteUrl: 'https://londonmarkets.today',
-    buildDate: (new Date).toLocaleString('en-GB', {timeZone: "UTC"})
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
