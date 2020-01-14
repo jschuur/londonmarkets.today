@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
       }
     }
   `)
-  const { title, buildDate } = data.site.siteMetadata
+  const { title } = data.site.siteMetadata
 
   return (
     <>

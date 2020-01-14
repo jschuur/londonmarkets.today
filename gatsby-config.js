@@ -14,8 +14,6 @@ module.exports = {
         trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
         head: false,
         anonymize: true,
-        respectDNT: true,
-        cookieDomain: "londonmarkets.today",
       },
     },
     `gatsby-plugin-react-helmet`,
