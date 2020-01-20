@@ -1,7 +1,8 @@
 import React from "react"
-import { graphql, Link } from "gatsby"
+import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
+import Market from "../components/Market"
 
 const MarketDetailTemplate = ({ data }) => {
   const { cosmicjsMarkets: market } = data
@@ -9,9 +10,7 @@ const MarketDetailTemplate = ({ data }) => {
   return (
     <Layout>
       <main>
-      <h1>{market.title}</h1>
-      { market.metadata.organiser && 
-        <div id="organiserlink">by <Link to={`@${market.metadata.organiser.slug}`}>{market.metadata.organiser.title}</Link></div> }
+        <Market market={market} />
       </main>
     </Layout>
   )
@@ -24,6 +23,7 @@ export const query = graphql`
     cosmicjsMarkets(id: { eq: $id }) {
       title
       metadata {
+        opening_hours
         organiser {
           slug
           title
